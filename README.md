@@ -1,6 +1,6 @@
 # Laporan Proyek Machine Learning - Rifqi Arrahim
  
-## Domain Proyek
+## Project Overview
 Anime merupakan salah satu hiburan yang banyak digemari orang orang. Menurut dokumen tahun 2004 dari Japan External Trade Organization dari artikel [12 SHOCKING FACTS ABOUT ANIME YOU NEED TO KNOW](https://newslanded.com/2020/07/03/12-shocking-facts-about-anime-you-need-to-know/), film anime dan acara televisi menyumbang 60% dari hiburan berbasis animasi dunia. Hampir 40 sekolah di Jepang telah mendeklarasikan anime sebagai mata pelajaran tersendiri. Akting suara anime juga sangat besar, karena Jepang memiliki sekitar 130 sekolah akting suara.
 ## Business Understanding
 Setiap Anime memiliki genre, tipe dan jumlah episode yang berbeda-beda. Berikut adalah tipe-tipe anime:
@@ -41,31 +41,20 @@ Data Understanding adalah tahap awal proyek untuk memahami data yang dimiliki. T
 
 
 ![infoanime](infoanime.jpg)<br>
-Skewness adalah kondisi di mana dataset cenderung memiliki distribusi data yang tidak seimbang. Skewness akan mempengaruhi data dengan menciptakan bias terhadap model. Dari visualisasi diatas dapat disimpulkan kolom insulin dan DiabetesPedigreeFunction memiliki distribusi yang tidak seimbang. Oleh karena itu saya melakukan Square Root Transformation<br>
-Setelah itu saya mengecek korelasi antara outcome dengan fitur-fitur yang lain.
-![Korelasi](korelasi.jpg)<br>
-Jika nilai korelasi semakin mendekati 1 maka korelasi antara dua fitur tersebut makin kuat. Dapat dilihat pada bagian bawah  Glucose memiliki korelasi paling kuat dengan outcome dibandingkan dengan fitur yang lainnya yaitu bernilai 0.5. Sedangkan kolom Insulin memiliki nilai yang paling mendekati 0. Oleh karena itu saya menghapus kolom insulin <br>
+Berdasarkan output diatas, kita dapat mengetahui anime.csv memiliki 12294 entri
+<br>
+![tipeanime](tipeanime.jpg)<br>
+Terdapat 12294 data anime yang unik dengan 6 jenis tipe anime.<br>
+![describerating](describerating.jpg)<br>
+Dari output diatas, diketahui bahwa nilai maksimum rating adalah 10 dan nilai minimum -1.<br>
+![inforating](ratinganime.jpg)<br>
+Berdasarkan output diatas, kita dapa mengetahui jumlah user yang memberikan rating, jumlah anime, dan jumlah data rating.
 
  
  
 ## Data preparation
-### Data Cleaning
-#### Basics
-Saya menghapus kolom skinthickness karena data tersebut tidak lengkap, dalam kagle dijelaskan tidak semua rentang umur mempunyai data skinthickness.
-#### Missing Value
-Saya mengecek nilai 0 pada kolom glucose, BloodPressure, BMI, DiabetesPedigreeFunction dan Age karena data tersebut tidak mungkin bernilai 0.
-Ketika ada data di kolom tersebut yang bernilai 0, Saya akan menghapus record tersebut. 
-#### Outliers
-Saya menggunakan boxplot terhadap semua fitur untuk melihat penyebaran data dan outliers. Lalu menggunakan metode interquartile untuk mengecek outliers.Jika terdapat outliers/pencilan maka hapus data tersebut.
-### Feature Engineering
-Feature Engineering merupakan proses membuat variabel input baru dari variabel data yang sudah ada. Berdasarkan hasil data Understanding kolom Insulin dan DiabetesPedigreeFunction memiliki sebaran data yang buruk. Sehingga saya melakukan Square Root Transformation pada kolom tersebut. Square Root Transformation mengubah nilai dengan mengakarkan nilai tersebut.
-### Feature Selection
-Feature Selection digunakan untuk mencari fitur yang relevan dengan outcome. Dari hasil data understanding dapat disimpulkan fitur Insulin kurang relevan digunakan karena memiliki nilai korelasi 0.05 atau mendekati 0.
-### Data Transforms
-#### Train Test Split
-Dalam tahap ini saya membagi dataset menjadi data latih sebanyak 90% dan data uji sebanyak 10%.
-#### Standardization
-Saya melakukan standarisasi agar algoritma machine learning memiliki performa lebih baik dan konvergen lebih cepat ketika dimodelkan pada data dengan skala relatif sama atau mendekati distribusi normal. Proses standarisasi membantu untuk membuat fitur data menjadi bentuk yang lebih mudah diolah oleh algoritma.
+### Missing Value
+Saya mengecek nilai 0 pada file anime dan rating. Ketika ada data yang bernilai 0, Saya akan menghapus record tersebut. Hal ini perlu dilakukan untuk menghindari membuat model machine learning yang bias.
  
 ## Modelling
 Tahap ini saya mengembangkan model machine learning dengan tiga algoritma yaitu KNN, Decision Tree, dan SVM. Model dibangung dengan bantuan library skicit learn. Setelah memanggil library penulis melakukan hyperparameter tuning dengan bantuan gridsearchcv. <br>
