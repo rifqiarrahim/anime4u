@@ -55,55 +55,31 @@ Berdasarkan output diatas, kita dapa mengetahui jumlah user yang memberikan rati
 ## Data preparation
 ### Missing Value
 Saya mengecek nilai 0 pada file anime dan rating. Ketika ada data yang bernilai 0, Saya akan menghapus record tersebut. Hal ini perlu dilakukan untuk menghindari membuat model machine learning yang bias.
- 
+### Feature Engineering
+Feature Engineering merupakan proses membuat variabel input baru dari variabel data yang sudah ada. 
+- Penulis melakukan konversi data series anime_id, name, type menjadi list. Dalam hal ini, kita menggunakan fungsi tolist() dari library numpy.
+- Penulis membuat dictionary untuk menentukan pasangan key-value pada data id, name, dan type.
+- Pada data rating terdapat nilai -1 yang menandakan user belum memberi rating. Penulis mengubah -1 menjadi 0 karena akan mempengaruhi model.
+- Penulis melakukan encode fitur ‘user_id’ dan ‘anime_id’ ke dalam indeks integer.
+- Penulis mengubah tipe data fitur rating menjadi float.
+- Rating memiliki data berjumlah 7813737. Penulis memutuskan mengambil sample sebanyak 73515 sesuai dengan jumlah user. Hal ini dilakukan karena keterbatasan runtime pada Google Colab. Untuk mengolah data sebanyak itu penulis perlu menggunakan Google Colab Pro
+### Data Transform
+- Penulis membagi dataset menjadi data latih sebanyak 80% dan data validasi sebanyak 20%.
 ## Modelling
-Tahap ini saya mengembangkan model machine learning dengan tiga algoritma yaitu KNN, Decision Tree, dan SVM. Model dibangung dengan bantuan library skicit learn. Setelah memanggil library penulis melakukan hyperparameter tuning dengan bantuan gridsearchcv. <br>
-### SVM
-Model ini membuat sebuah Hyperplane di antara data dengan margin yang maksimal. Hyperplane adalah sebuah garis yang memisahkan data positif diabetes dan negatif diabetes. Margin adalah jarak Hyperplane dengan data tersebut. Semakin besar margin yang dibuat, semakin tinggi akurasi yang kita dapatkan.
-- C : 1.0<br>
-Fungsi Parameter : Seberapa besar kita ingin menghindari kesalahan klasifikasi setiap training. Saya menggunakan nilai default yaitu 1.0.
-- degree : 3<br>
-Fungsi Parameter : Derajat fungsi kernel. Saya menggunakan nilai default yaitu 3.
-- gamma : scale<br>
-Fungsi Parameter : Seberapa jauh pengaruh setiap satu training. Saya menggunakan nilai default yaitu 'scale'.
-### KNN
-Pertama model akan menentukan nilai k. Nilai k adalah jumlah n_neighbors atau data terdekat yang akan dijadikan acuan. Lalu model akan menghitung jarak tersebut dan melakukan klasifikasi.
-- leaf_size : 30<br>
-Fungsi Parameter : leaf_size dapat mempengaruhi kecepatan dan memori yang diperlukan untuk menyimpan pohon.
-- n_neighbors : 10<br>
-Fungsi Parameter : n_neighbors untuk mengatur nilai k pada KNN.
-- weights : distance<br>
-Fungsi Parameter : Semakin dekat data maka akan semakin besar pengaruh yang diberikan.
-- metric : euclidian<br>
-Fungsi Parameter : Fungsi untuk menghitung jarak
-### Decision Tree
-Model akan membuat sebuah root nodes, lalu akan membuat percabangan dengan memilih fitur-fitur yang ada dengan menghitung entropy dan information gain. Ketika tree sudah mencapai leaf nodes atau tidak mempunyai cabang lagi, maka nodes tersebut merupakan output dari model
-- criterion : gini<br>
-Fungsi Parameter : Fungsi untuk mengukur kualitas percabangan.
-- max_depth : 3<br>
-Fungsi Parameter : Maksimum level pohon.
-- max_features : None<br>
-Fungsi Parameter : Menentukan jumlah fitur ketika bercabang.
-- min_samples_leaf : 5<br>
-Fungsi Parameter : Minimum jumlah sampel yang dibutuhkan untuk leaf node.
-- min_samples_split : 2<br>
-Fungsi Parameter : Minimum jumlah sampel untuk internal node bercabang.
- 
+### Content Based Filtering
+Penulis membangun sistem rekomendasi sederhana berdasarkan tipe anime. 
+#### TF-IDF Vectorizer
+Teknik TF-IDF Vectorizer akan digunakan pada sistem rekomendasi untuk menemukan representasi fitur penting dari setiap tipe anime. Penulis menggunakan fungsi tfidfvectorizer() dari library sklearn.<br>
+![matriks](matriksanime.jpg)<br>
+Berikut vektor tf-idf dalam bentuk matriks. Output matriks tf-idf di atas menunjukkan Little Polar Bear: Shirokuma-kun, Fune ni Noru memiliki kategori OVA. Hal ini terlihat dari nilai matriks 1.0 pada kategori OVA.
+#### Cosine Similarity
+Pada tahap sebelumnya, penulis telah berhasil mengidentifikasi korelasi antara anime dengan tipenya. Sekarang, penulis akan menghitung derajat kesamaan (similarity degree) antar anime dengan teknik cosine similarity. Di sini, penulis menggunakan fungsi cosine_similarity dari library sklearn. <br>
+![similarity](similarity.jpg)<br>
+
+### Collaborative Filtering
+
 ## Evaluation
-Fitur glucose memiliki nilai korelasi yang besar dengan label outcome berdasarkan hal itu dapat disimpulkan bahwa kadar glukosa dalam tubuh merupakan faktor yang paling berpengaruh untuk mengidentifikasi apakah pasien mengidap diabetes atau tidak.<br>
-Dari ketiga model di atas saya menggunakan metrics.classisfication_report yang merupakan library bawaan dari skicitlearn untuk mengevaluasi model. Output dari model dapat diklasifikasikan menjadi empat.<br>
-1. True Positive atau TP. Ketika model memberikan output positif diabetes dan label data test bernilai positif diabetes.
-2. True Negative atau TN. Ketika model memberikan output negatif diabetes dan label data test bernilai negatif diabetes.
-3. False Positive atau FP. Ketika model memberikan output positif diabetes sedangkan label data test bernilai negatif diabetes.
-4. False Negative atau FN. Ketika model memberikan output negatif diabetes sedangkan label data test bernilai positive diabetes.
-$$Precision = \frac{TP}{TP + FP} $$<br>
-$$Recall = \frac{TP}{TP + FN} $$<br>
-$$F1 = \frac{2 * Precision*Recall}{Precision+Recall}$$<br>
-### SVM
-![SVM](SVM(2).jpg)
-### KNN
-![KNN](KNN(2).jpg)
-### Decision Tree
-![DCT](DCT(2).jpg)<br>
-Nilai precision, recall, dan f1-score sering digunakan untuk mengevaluasi masalah klasifikasi. Dari nilai f1-score model KNN dan Decision Tree memiliki nilai lebih baik dibandingkan model SVM. Jadi dapat disimpulkan model KNN dan Decision Tree dapat memberikan output yang lebih tepat dibandingkan model SVM. 
+### Content Based Filtering
+
+### Collaborative Filtering
  
