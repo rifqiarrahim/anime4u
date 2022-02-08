@@ -64,10 +64,12 @@ Feature Engineering merupakan proses membuat variabel input baru dari variabel d
 - Penulis mengubah tipe data fitur rating menjadi float.
 - Rating memiliki data berjumlah 7813737. Penulis memutuskan mengambil sample sebanyak 73515 sesuai dengan jumlah user. Hal ini dilakukan karena keterbatasan runtime pada Google Colab. Untuk mengolah data sebanyak itu penulis perlu menggunakan Google Colab Pro
 ### Data Transform
-- Penulis membagi dataset menjadi data latih sebanyak 80% dan data validasi sebanyak 20%.
+- Penulis membagi data rating menjadi data latih sebanyak 80% dan data validasi sebanyak 20%.
 ## Modelling
 ### Content Based Filtering
-Penulis membangun sistem rekomendasi sederhana berdasarkan tipe anime. 
+Ide dari sistem rekomendasi berbasis konten (content-based filtering) adalah merekomendasikan item yang mirip dengan item yang disukai pengguna di masa lalu. Penulis membangun sistem rekomendasi sederhana berdasarkan tipe anime. Misal, jika Anda menyukai anime A bertipe C, sistem akan merekomendasikan anime B yang bertipe C juga. Content-based filtering mempelajari profil minat pengguna baru berdasarkan data dari objek yang telah dinilai pengguna. Content based filtering membutuhkan deskripsi item/fitur yang baik. Algoritma ini bekerja dengan menyarankan item serupa yang pernah disukai di masa lalu atau sedang dilihat di masa kini kepada pengguna. Semakin banyak informasi yang diberikan pengguna, semakin baik akurasi sistem rekomendasi. Untuk membuat profil pengguna, terdapat dua informasi penting bagi sistem dengan pendekatan content-based filtering: 
+- Model preferensi pengguna.
+- Riwayat interaksi pengguna dengan sistem rekomendasi.
 #### TF-IDF Vectorizer
 Teknik TF-IDF Vectorizer akan digunakan pada sistem rekomendasi untuk menemukan representasi fitur penting dari setiap tipe anime. Penulis menggunakan fungsi tfidfvectorizer() dari library sklearn.<br>
 ![matriks](matriksanime.jpg)<br>
@@ -82,10 +84,15 @@ Sebelumnya, kita telah memiliki data similarity (kesamaan) antar anime. Kini, ti
 - Similarity_data : Dataframe mengenai similarity yang telah kita definisikan sebelumnya.
 - Items : Nama dan fitur yang digunakan untuk mendefinisikan kemiripan, dalam hal ini adalah ‘name’ dan ‘type’.
 - k : Banyak rekomendasi yang ingin diberikan.
+#### Result
+![himawari](himawari.jpg)<br>
+Himawari termasuk dalam kategori TV. Tentu kita berharap rekomendasi yang diberikan adalah anime dengan tipe yang mirip. Nah, sekarang, dapatkan anime recommendation dengan memanggil fungsi anime_recommendation.<br>
+![himawariresult](himawariresult.jpg)<br>
+Sistem kita memberikan rekomendasi 5 nama anime dengan tipe TV.
 ### Collaborative Filtering
+Collaborative filtering bergantung pada pendapat komunitas pengguna. Ia tidak memerlukan atribut untuk setiap itemnya seperti pada sistem berbasis konten. Collaborative Filtering membutuhkan banyak feedback dari pengguna agar sistem berfungsi dengan baik. <br>
+Model akan menghitung skor kecocokan antara pengguna dan anime dengan teknik embedding. Pertama, kita melakukan proses embedding terhadap data user dan anime. Selanjutnya, lakukan operasi perkalian dot product antara embedding user dan anime. Selain itu, kita juga dapat menambahkan bias untuk setiap user dan anime. Skor kecocokan ditetapkan dalam skala [0,1] dengan fungsi aktivasi sigmoid. Penulis membuat class RecommenderNet dengan keras Model class. Kode class RecommenderNet ini terinspirasi dari tutorial dalam situs Keras. Model ini menggunakan Binary Crossentropy untuk menghitung loss function, Adam (Adaptive Moment Estimation) sebagai optimizer, dan root mean squared error (RMSE) sebagai metrics evaluation. 
 
 ## Evaluation
-### Content Based Filtering
 
-### Collaborative Filtering
  
