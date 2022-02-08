@@ -99,7 +99,7 @@ Untuk mendapatkan rekomendasi anime, pertama kita ambil sampel user secara acak 
 hasil di atas adalah rekomendasi untuk user dengan id 43652. Dari output tersebut, kita dapat membandingkan antara anime with high ratings from user dan Top 10 anime recommendation untuk user. Perhatikanlah, beberapa anime bertipe sesuai dengan rating user. Kita memperoleh 4 anime bertipe TV, 3 anime bertipe Movie, dan 3 anime bertipe OVA.
 
 ## Evaluation
-Pengertian Root Mean Square Error (RMSE) adalah  metode pengukuran dengan mengukur perbedaan nilai dari prediksi sebuah model sebagai estimasi atas nilai yang diobservasi. Root Mean Square Error adalah hasil dari akar kuadrat Mean Square Error. Keakuratan metode estimasi kesalahan pengukuran ditandai dengan adanya nilai RMSE yang kecil. Metode estimasi yang mempunyai Root Mean Square Error (RMSE) lebih kecil dikatakan lebih akurat daripada metode estimasi yang mempunyai Root Mean Square Error (RMSE) lebih besar.
+Pengertian Root Mean Square Error (RMSE) adalah  metode pengukuran dengan mengukur perbedaan nilai dari prediksi sebuah model sebagai estimasi atas nilai yang diobservasi. Root Mean Square Error adalah hasil dari akar kuadrat Mean Square Error. Keakuratan metode estimasi kesalahan pengukuran ditandai dengan adanya nilai RMSE yang kecil. Metode estimasi yang mempunyai Root Mean Square Error (RMSE) lebih kecil dikatakan lebih akurat daripada metode estimasi yang mempunyai Root Mean Square Error (RMSE) lebih besar.<br>
 ![RMSE](rmse.png)<br>
 ![result](rmse.jpg)<br>
 Proses training model cukup smooth dan model konvergen pada epochs sekitar 50. Dari proses ini, kita memperoleh nilai error akhir sebesar sekitar 0.14 dan error pada data validasi sebesar 0.28. Nilai tersebut cukup bagus untuk sistem rekomendasi.
