@@ -75,7 +75,13 @@ Berikut vektor tf-idf dalam bentuk matriks. Output matriks tf-idf di atas menunj
 #### Cosine Similarity
 Pada tahap sebelumnya, penulis telah berhasil mengidentifikasi korelasi antara anime dengan tipenya. Sekarang, penulis akan menghitung derajat kesamaan (similarity degree) antar anime dengan teknik cosine similarity. Di sini, penulis menggunakan fungsi cosine_similarity dari library sklearn. <br>
 ![similarity](similarity.jpg)<br>
-
+Dengan cosine similarity, kita berhasil mengidentifikasi kesamaan antara satu anime dengan anime lainnya. Shape (12017, 12017) merupakan ukuran matriks similarity dari data yang kita miliki. Berdasarkan data yang ada, matriks di atas sebenarnya berukuran 12017 anime x 12017 anime (masing-masing dalam sumbu X dan Y). Angka 1.0 mengindikasikan bahwa anime pada kolom X (horizontal) memiliki kesamaan dengan anime pada baris Y (vertikal). Sebagai contoh, anime Otona Joshi no Anime Time teridentifikasi sama (similar) dengan Lemon Home Animation Gekijou.
+#### Mendapatkan Rekomendasi
+Sebelumnya, kita telah memiliki data similarity (kesamaan) antar anime. Kini, tibalah saatnya  menghasilkan sejumlah anime yang akan direkomendasikan kepada pengguna. Pengguna X pernah menonton anime Otona Joshi no Anime Time. Kemudian, saat pengguna tersebut berencana untuk menonton anime lain, sistem akan merekomendasikan Lemon Home Animation Gekijou. Nah, rekomendasi anime ini berdasarkan kesamaan yang dihitung dengan cosine similarity pada tahap sebelumnya. Penulis membuat fungsi anime_recommendations dengan beberapa parameter sebagai berikut:
+- nama_anime : Nama anime (index kemiripan dataframe).
+- Similarity_data : Dataframe mengenai similarity yang telah kita definisikan sebelumnya.
+- Items : Nama dan fitur yang digunakan untuk mendefinisikan kemiripan, dalam hal ini adalah ‘name’ dan ‘type’.
+- k : Banyak rekomendasi yang ingin diberikan.
 ### Collaborative Filtering
 
 ## Evaluation
