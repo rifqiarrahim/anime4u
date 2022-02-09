@@ -102,7 +102,7 @@ hasil di atas adalah rekomendasi untuk user dengan id 43652. Dari output tersebu
 ### Content Based Filtering
 Merupakan rasio prediksi benar positif dibandingkan dengan keseluruhan hasil yang diprediksi positf. <br>
 ![precision](precision.png)<br>
-![result Content Based Filtering](rescontent)<br>
+![result Content Based Filtering](rescontent.jpg)<br>
 Sistem Rekomendasi memiliki nilai precision 1.0. Berarti model yang dibangun dapat memberikan rekomendasi yang tepat.
 ### Collaborative Filtering
 Pengertian Root Mean Square Error (RMSE) adalah  metode pengukuran dengan mengukur perbedaan nilai dari prediksi sebuah model sebagai estimasi atas nilai yang diobservasi. Root Mean Square Error adalah hasil dari akar kuadrat Mean Square Error. Keakuratan metode estimasi kesalahan pengukuran ditandai dengan adanya nilai RMSE yang kecil. Metode estimasi yang mempunyai Root Mean Square Error (RMSE) lebih kecil dikatakan lebih akurat daripada metode estimasi yang mempunyai Root Mean Square Error (RMSE) lebih besar.<br>
