@@ -12,11 +12,11 @@ Setiap Anime memiliki genre, tipe dan jumlah episode yang berbeda-beda. Berikut 
 6. Special
  
 ### Problem Statements
-- Bagaimana membuat sistem rekomendasi anime berdsarkan tipe anime?
+- Bagaimana membuat sistem rekomendasi anime berdasarkan tipe anime?
 - Dengan data rating yang ada, bagaimana memberikan rekomendasi anime yang mungkin akan disukai penonton?
 ### Goals
 - Membuat sistem rekomendasi anime berdasarkan tipe anime.
-- Memberikan rekomendasi anime yang mungkin akan disukai penonton berdsarkan rating yang diberikan.
+- Memberikan rekomendasi anime yang mungkin akan disukai penonton berdasarkan rating yang diberikan.
  
 ### Solution Approach
 - Membuat sistem rekomendasi yang telah dipersonalisasi menggunakan teknik content based filtering
@@ -25,17 +25,17 @@ Setiap Anime memiliki genre, tipe dan jumlah episode yang berbeda-beda. Berikut 
 ## Data Understanding
 Data Understanding adalah tahap awal proyek untuk memahami data yang dimiliki. Tahap Data Understanding penting untuk memahami variabel-variabel pada data serta korelasi antar variabel. Dalam kasus ini, kita memiliki 2 [file](https://www.kaggle.com/CooperUnion/anime-recommendations-database) terpisah mengenain anime dan rating. Pada file anime terdapat 12294 record dan 6 fitur yaitu anime_id, name, genre, type, episodes, rating, dan members. Pada file rating terdapat 7813737 record dan 3 fitur yaitu user_id, anime_id, dan rating.
 ### Anime.csv
-1. anime_id - myanimelist.net's unique id identifying an anime.
-2. name - full name of anime.
-3. genre - comma separated list of genres for this anime.
-4.type - movie, TV, OVA, etc.
-5. episodes - how many episodes in this show. (1 if movie).
-6. rating - average rating out of 10 for this anime.
-7. members - number of community members that are in this anime's "group".
+1. anime_id - id unik myanimelist.net untuk mengidentifikasi anime.
+2. name - nama lengkap anime.
+3. genre - gnere anime.
+4.type - tipe anime seperti : movie, TV, OVA, Special, Music, ONA.
+5. episodes - jumlah episode. 1 untuk movie.
+6. rating - rata-rata rating.
+7. members - jumlah member grup anime.
 ### Rating.csv
-1. user_id - non identifiable randomly generated user id.
-2. anime_id - the anime that this user has rated.
-3. rating - rating out of 10 this user has assigned (-1 if the user watched it but didn't assign a rating).
+1. user_id - id user yang acak.
+2. anime_id - id anime.
+3. rating - rating yang diberikan.
 <br>
 
 
@@ -57,12 +57,12 @@ Berdasarkan output diatas, kita dapa mengetahui jumlah user yang memberikan rati
 Saya mengecek nilai 0 pada file anime dan rating. Ketika ada data yang bernilai 0, Saya akan menghapus record tersebut. Hal ini perlu dilakukan untuk menghindari membuat model machine learning yang bias.
 ### Feature Engineering
 Feature Engineering merupakan proses membuat variabel input baru dari variabel data yang sudah ada. 
-- Penulis melakukan konversi data series anime_id, name, type menjadi list. Dalam hal ini, kita menggunakan fungsi tolist() dari library numpy.
-- Penulis membuat dictionary untuk menentukan pasangan key-value pada data id, name, dan type.
+- Penulis melakukan konversi data series anime_id, name, type menjadi list. Dalam hal ini, kita menggunakan fungsi tolist() dari library numpy. Untuk nantinya diubah ke dictionary.
 - Pada data rating terdapat nilai -1 yang menandakan user belum memberi rating. Penulis mengubah -1 menjadi 0 karena akan mempengaruhi model.
-- Penulis melakukan encode fitur ‘user_id’ dan ‘anime_id’ ke dalam indeks integer.
-- Penulis mengubah tipe data fitur rating menjadi float.
+- Penulis melakukan encode fitur ‘user_id’ dan ‘anime_id’ ke dalam indeks integer dan mengubah tipe data fitur rating menjadi float. Tahap ini dilakukan agar data siap digunakan untuk pemodelan.
 - Rating memiliki data berjumlah 7813737. Penulis memutuskan mengambil sample sebanyak 73515 sesuai dengan jumlah user. Hal ini dilakukan karena keterbatasan runtime pada Google Colab. Untuk mengolah data sebanyak itu penulis perlu menggunakan Google Colab Pro
+### Normalisasi
+- Membuat rating dalam skala 0 sampai 1 agar mudah dalam melakukan proses training. 
 ### Data Transform
 - Penulis membagi data rating menjadi data latih sebanyak 80% dan data validasi sebanyak 20%.
 ## Modelling
@@ -99,6 +99,12 @@ Untuk mendapatkan rekomendasi anime, pertama kita ambil sampel user secara acak 
 hasil di atas adalah rekomendasi untuk user dengan id 43652. Dari output tersebut, kita dapat membandingkan antara anime with high ratings from user dan Top 10 anime recommendation untuk user. Perhatikanlah, beberapa anime bertipe sesuai dengan rating user. Kita memperoleh 4 anime bertipe TV, 3 anime bertipe Movie, dan 3 anime bertipe OVA.
 
 ## Evaluation
+### Content Based Filtering
+Merupakan rasio prediksi benar positif dibandingkan dengan keseluruhan hasil yang diprediksi positf. <br>
+![precision](precision.png)<br>
+![result Content Based Filtering](rescontent)<br>
+Sistem Rekomendasi memiliki nilai precision 1.0. Berarti model yang dibangun dapat memberikan rekomendasi yang tepat.
+### Collaborative Filtering
 Pengertian Root Mean Square Error (RMSE) adalah  metode pengukuran dengan mengukur perbedaan nilai dari prediksi sebuah model sebagai estimasi atas nilai yang diobservasi. Root Mean Square Error adalah hasil dari akar kuadrat Mean Square Error. Keakuratan metode estimasi kesalahan pengukuran ditandai dengan adanya nilai RMSE yang kecil. Metode estimasi yang mempunyai Root Mean Square Error (RMSE) lebih kecil dikatakan lebih akurat daripada metode estimasi yang mempunyai Root Mean Square Error (RMSE) lebih besar.<br>
 ![RMSE](rmse.png)<br>
 ![result](rmse.jpeg)<br>
