@@ -40,14 +40,17 @@ Data Understanding adalah tahap awal proyek untuk memahami data yang dimiliki. T
 
 
 
-![infoanime](infoanime.jpeg)<br>
+![infoanime](https://user-images.githubusercontent.com/80544137/153234181-bbc95b49-656b-4ea0-b4eb-5b0e355723af.jpeg)<br>
+
 Berdasarkan output diatas, kita dapat mengetahui anime.csv memiliki 12294 entri
 <br>
-![tipeanime](tipeanime.jpeg)<br>
+![tipeanime](https://user-images.githubusercontent.com/80544137/153234230-cc8ee70b-8c01-482b-a4c5-bd06fd68fcbd.jpeg)<br>
+
 Terdapat 12294 data anime yang unik dengan 6 jenis tipe anime.<br>
-![describerating](describerating.jpeg)<br>
+![describerating](https://user-images.githubusercontent.com/80544137/153234302-67be9db0-cacd-43fa-bb0f-1f81999a5179.jpeg)<br>
 Dari output diatas, diketahui bahwa nilai maksimum rating adalah 10 dan nilai minimum -1.<br>
-![inforating](inforating.jpeg)<br>
+![inforating](https://user-images.githubusercontent.com/80544137/153234387-0416abda-c85c-4f89-8284-d1d58709d5ef.jpeg)
+<br>
 Berdasarkan output diatas, kita dapa mengetahui jumlah user yang memberikan rating, jumlah anime, dan jumlah data rating.
 
  
@@ -72,11 +75,12 @@ Ide dari sistem rekomendasi berbasis konten (content-based filtering) adalah mer
 - Riwayat interaksi pengguna dengan sistem rekomendasi.
 #### TF-IDF Vectorizer
 Teknik TF-IDF Vectorizer akan digunakan pada sistem rekomendasi untuk menemukan representasi fitur penting dari setiap tipe anime. Penulis menggunakan fungsi tfidfvectorizer() dari library sklearn.<br>
-![matriks](matriks.jpeg)<br>
+![matriks](https://user-images.githubusercontent.com/80544137/153234434-380c92a3-870f-41c7-9f99-7f5948c18bb2.jpeg)<br>
 Berikut vektor tf-idf dalam bentuk matriks. Output matriks tf-idf di atas menunjukkan Little Polar Bear: Shirokuma-kun, Fune ni Noru memiliki kategori OVA. Hal ini terlihat dari nilai matriks 1.0 pada kategori OVA.
 #### Cosine Similarity
 Pada tahap sebelumnya, penulis telah berhasil mengidentifikasi korelasi antara anime dengan tipenya. Sekarang, penulis akan menghitung derajat kesamaan (similarity degree) antar anime dengan teknik cosine similarity. Di sini, penulis menggunakan fungsi cosine_similarity dari library sklearn. <br>
-![similarity](similarity.jpeg)<br>
+![similarity](https://user-images.githubusercontent.com/80544137/153234467-cc55cc68-36db-48fd-b70d-4a8fe72efd57.jpeg)
+<br>
 Dengan cosine similarity, kita berhasil mengidentifikasi kesamaan antara satu anime dengan anime lainnya. Shape (12017, 12017) merupakan ukuran matriks similarity dari data yang kita miliki. Berdasarkan data yang ada, matriks di atas sebenarnya berukuran 12017 anime x 12017 anime (masing-masing dalam sumbu X dan Y). Angka 1.0 mengindikasikan bahwa anime pada kolom X (horizontal) memiliki kesamaan dengan anime pada baris Y (vertikal). Sebagai contoh, anime Otona Joshi no Anime Time teridentifikasi sama (similar) dengan Lemon Home Animation Gekijou.
 #### Mendapatkan Rekomendasi
 Sebelumnya, kita telah memiliki data similarity (kesamaan) antar anime. Kini, tibalah saatnya  menghasilkan sejumlah anime yang akan direkomendasikan kepada pengguna. Pengguna X pernah menonton anime Otona Joshi no Anime Time. Kemudian, saat pengguna tersebut berencana untuk menonton anime lain, sistem akan merekomendasikan Lemon Home Animation Gekijou. Nah, rekomendasi anime ini berdasarkan kesamaan yang dihitung dengan cosine similarity pada tahap sebelumnya. Penulis membuat fungsi anime_recommendations dengan beberapa parameter sebagai berikut:
@@ -85,9 +89,10 @@ Sebelumnya, kita telah memiliki data similarity (kesamaan) antar anime. Kini, ti
 - Items : Nama dan fitur yang digunakan untuk mendefinisikan kemiripan, dalam hal ini adalah ‘name’ dan ‘type’.
 - k : Banyak rekomendasi yang ingin diberikan.
 #### Result
-![himawari](himawari.jpeg)<br>
+![himawari](https://user-images.githubusercontent.com/80544137/153234511-6efa1d2c-8de7-4510-8d91-4ce9a27ac76c.jpeg)
+<br>
 Himawari termasuk dalam kategori TV. Tentu kita berharap rekomendasi yang diberikan adalah anime dengan tipe yang mirip. Nah, sekarang, dapatkan anime recommendation dengan memanggil fungsi anime_recommendation.<br>
-![himawariresult](himawariresult.jpeg)<br>
+![himawariresult](https://user-images.githubusercontent.com/80544137/153234550-af66e406-f9c7-4482-a560-8d8b1f1d8daa.jpeg)<br>
 Sistem kita memberikan rekomendasi 5 nama anime dengan tipe TV.
 ### Collaborative Filtering
 Collaborative filtering bergantung pada pendapat komunitas pengguna. Ia tidak memerlukan atribut untuk setiap itemnya seperti pada sistem berbasis konten. Collaborative Filtering membutuhkan banyak feedback dari pengguna agar sistem berfungsi dengan baik.
@@ -95,18 +100,18 @@ Collaborative filtering bergantung pada pendapat komunitas pengguna. Ia tidak me
 Model akan menghitung skor kecocokan antara pengguna dan anime dengan teknik embedding. Pertama, kita melakukan proses embedding terhadap data user dan anime. Selanjutnya, lakukan operasi perkalian dot product antara embedding user dan anime. Selain itu, kita juga dapat menambahkan bias untuk setiap user dan anime. Skor kecocokan ditetapkan dalam skala [0,1] dengan fungsi aktivasi sigmoid. Penulis membuat class RecommenderNet dengan keras Model class. Kode class RecommenderNet ini terinspirasi dari tutorial dalam situs Keras. Model ini menggunakan Binary Crossentropy untuk menghitung loss function, Adam (Adaptive Moment Estimation) sebagai optimizer, dan root mean squared error (RMSE) sebagai metrics evaluation. 
 #### Result
 Untuk mendapatkan rekomendasi anime, pertama kita ambil sampel user secara acak dan definisikan variabel anime_not_watched yang merupakan daftar anime yang belum pernah ditonton oleh pengguna. Hal ini karena daftar anime_not_watched inilah yang akan menjadi anime yang kita rekomendasikan. Variabel anime_not_watched diperoleh dengan menggunakan operator bitwise (~) pada variabel anime_watched_by_user.<br>
-![recommendation collaborative](reccollaborative.jpg)<br>
+![reccollaborative](https://user-images.githubusercontent.com/80544137/153234588-b8372abc-1764-4c81-b138-871549e55fdb.jpg)<br>
 hasil di atas adalah rekomendasi untuk user dengan id 43652. Dari output tersebut, kita dapat membandingkan antara anime with high ratings from user dan Top 10 anime recommendation untuk user. Perhatikanlah, beberapa anime bertipe sesuai dengan rating user. Kita memperoleh 4 anime bertipe TV, 3 anime bertipe Movie, dan 3 anime bertipe OVA.
 
 ## Evaluation
 ### Content Based Filtering
 Merupakan rasio prediksi benar positif dibandingkan dengan keseluruhan hasil yang diprediksi positf. <br>
-![precision](precision.png)<br>
-![result Content Based Filtering](rescontent.jpg)<br>
+![precision](https://user-images.githubusercontent.com/80544137/153234639-ff7b438d-4b73-4a1f-aab4-b0cc9451fabc.png)<br>
+![rescontent](https://user-images.githubusercontent.com/80544137/153234682-de59db37-5166-4a7b-9e77-694f0ab20ed1.jpg)<br>
 Sistem Rekomendasi memiliki nilai precision 1.0. Berarti model yang dibangun dapat memberikan rekomendasi yang tepat.
 ### Collaborative Filtering
 Pengertian Root Mean Square Error (RMSE) adalah  metode pengukuran dengan mengukur perbedaan nilai dari prediksi sebuah model sebagai estimasi atas nilai yang diobservasi. Root Mean Square Error adalah hasil dari akar kuadrat Mean Square Error. Keakuratan metode estimasi kesalahan pengukuran ditandai dengan adanya nilai RMSE yang kecil. Metode estimasi yang mempunyai Root Mean Square Error (RMSE) lebih kecil dikatakan lebih akurat daripada metode estimasi yang mempunyai Root Mean Square Error (RMSE) lebih besar.<br>
-![RMSE](rmse.png)<br>
-![result](rmse.jpeg)<br>
+![rmse](https://user-images.githubusercontent.com/80544137/153234736-498c1c83-f170-4a58-954a-771a12905a18.png)<br>
+![rmse](https://user-images.githubusercontent.com/80544137/153234782-ad0aa049-4f3f-47c8-8642-d10046eab8f2.jpeg)<br>
 Proses training model cukup smooth dan model konvergen pada epochs sekitar 50. Dari proses ini, kita memperoleh nilai error akhir sebesar sekitar 0.14 dan error pada data validasi sebesar 0.28. Nilai tersebut cukup bagus untuk sistem rekomendasi.
  
